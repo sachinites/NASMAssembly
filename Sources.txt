@@ -6,3 +6,9 @@ https://www.tutorialspoint.com/assembly_programming/assembly_conditions.htm
 
 Flags :
 https://www.tutorialspoint.com/assembly_programming/assembly_registers.htm
+
+Linux System Calls Synopsis for Assembly:
+https://syscalls.kernelgrok.com/
+
+Assembly interfacing with C
+https://stackoverflow.com/questions/24991944/linking-c-with-nasm
