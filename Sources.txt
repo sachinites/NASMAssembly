@@ -1,0 +1,8 @@
+Understanding Colon notation:
+https://stackoverflow.com/questions/47242830/what-does-csip-mean-in-assembly-and-how-it-works
+
+Good info on Conditional and Uncondition Jump Instructions:
+https://www.tutorialspoint.com/assembly_programming/assembly_conditions.htm
+
+Flags :
+https://www.tutorialspoint.com/assembly_programming/assembly_registers.htm
