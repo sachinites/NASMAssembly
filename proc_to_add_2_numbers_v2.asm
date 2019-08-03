@@ -2,12 +2,16 @@
     ; Check my website for free and more courses : 
     ; http://csepracticals.wixsite.com/csepracticals
 
+; This is Version 2 of adding of two numbers, in this version we save
+; the result into additional sorage created in stack memory itself first, 
+; and then we copy the result to eax register before returning from the function
+
 ; Steps to compile this program
 ; This program uses scanf.c file and invoke get_int fn from it
 
-; nasm -f elf proc_to_add_2_numbers.asm
+; nasm -f elf proc_to_add_2_numbers_v2.asm
 ; gcc -c scanf.c -o scanf.o
-; ld scanf.o proc_to_add_2_numbers.o -lc -I /lib/ld-linux.so.2 -o proc_to_add_2_numbers
+; ld scanf.o proc_to_add_2_numbers_v2.o -lc -I /lib/ld-linux.so.2 -o proc_to_add_2_numbers_v2
 
 
 ; C standard functions which we will going to
@@ -33,20 +37,24 @@ add:
     push ebp  ; STEP 4.1 Store caller's base address into stack memory of calle
     mov ebp, esp    ;   STEP 4.2 update ebp with callee's base address now
     
-    ; STEP 6 : Callee executation starts from here, there is no STEP 5 in this example
-    ; as there is no local variable used
-    ; initialize the eax register that will store the result - the return value of this routine
+    ; STEP 6 : Callee executation starts from here after setting up the base pointer
+    ; STEP 5 : Calee creates additional storage within stack memory to store the 4B result
     ; Remember, the return value of the subroutine are stored in eax register
-    mov eax, 0         
+    sub esp, 4         
     
     ;   Compute addition of two numbers. Note that arguments are accessed using ebp as a reference
-    add eax, [ebp + 8]  
-
+    mov dword [esp], 0    ;   initialize the result memory
+    mov ebx, 0
+    add ebx, [ebp + 8]  
+    add ebx, [ebp + 12]
+    mov [esp], ebx        ;  copy the result to the stack memory
+    
     ; STEP 7 : Procedure Return Algorithm Starts here
     ; Callee : Set the return value of the Callee in eax register 
-    add eax, [ebp + 12]
+    mov eax, [esp]
+    
     ; STEP 8 : Free stack memory occupied by local variables for routine add
-    ; There are no local variables in this example 
+    add esp, 4
 
     ; STEP 9 : restore the ebp register content to store base address of caller
     mov ebp, [esp] ; step 9.1
