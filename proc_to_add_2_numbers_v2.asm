@@ -12,7 +12,7 @@
 ; nasm -f elf proc_to_add_2_numbers_v2.asm
 ; gcc -c scanf.c -o scanf.o
 ; ld scanf.o proc_to_add_2_numbers_v2.o -lc -I /lib/ld-linux.so.2 -o proc_to_add_2_numbers_v2
-
+; ./proc_to_add_2_numbers_v2
 
 ; C standard functions which we will going to
 ; call from this assembly code
@@ -40,7 +40,8 @@ add:
     ; STEP 6 : Callee executation starts from here after setting up the base pointer
     ; STEP 5 : Calee creates additional storage within stack memory to store the 4B result
     ; Remember, the return value of the subroutine are stored in eax register
-    sub esp, 4         
+    ;sub esp, 4  
+    push dword 0  ; you can use above statement also, same thing  
     
     ;   Compute addition of two numbers. Note that arguments are accessed using ebp as a reference
     mov dword [esp], 0    ;   initialize the result memory
@@ -54,7 +55,8 @@ add:
     mov eax, [esp]
     
     ; STEP 8 : Free stack memory occupied by local variables for routine add
-    add esp, 4
+    ;add esp, 4
+    pop dword [esp] ; you cal also use above statement, same thing
 
     ; STEP 9 : restore the ebp register content to store base address of caller
     mov ebp, [esp] ; step 9.1
@@ -83,13 +85,13 @@ global _start
     call get_int
     mov [var2], eax
 
-    ; STEP 1 : push first No on the stack
+    ; STEP 1.1 : push first No on the stack
     push dword [var2]
-    ; STEP 2 : push second number on the stack, this completes
+    ; STEP 1.2 : push second number on the stack, this completes
     ; our step 1 of procedure call algorithm
     push dword [var1]
 
-    ; STEP 3 : step 2 and 3 is performed by simply invoking a subroutine
+    ; STEP 2 & 3 : step 2 and 3 is performed by simply invoking a subroutine
     ; using call. Programmer do not have direct access to eip.
     ; below call perform two operations behind the scenes :
     ; 1. push eip   << push address of next instruction in caller frame into stack memory
